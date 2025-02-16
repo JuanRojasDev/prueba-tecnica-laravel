@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 /* Estilos personalizados */
+
 .cocktail-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -18,4 +19,17 @@
 
 .save-btn:hover {
     transform: translateY(-2px);
+}
+
+.navbar {
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.navbar.scrolled {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.stroke-white {
+    -webkit-text-stroke: 1.5px white;
 }
