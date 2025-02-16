@@ -21,6 +21,7 @@
                         <form method="POST" action="{{ route('cocktails.store') }}" class="mt-4">
                             @csrf
                             <input type="hidden" name="name" value="{{ $cocktail['strDrink'] }}">
+                            <input type="hidden" name="category" value="Cocktail"> <!-- Default category value -->
                             <input type="hidden" name="image_url" value="{{ $cocktail['strDrinkThumb'] }}">
                             <button type="submit" class="save-btn w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors">
                                 💾 Save Cocktail

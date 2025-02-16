@@ -15,7 +15,7 @@
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-900 text-white font-sans antialiased">
+<body class="bg-gray-900 text-white font-sans antialiased dark">
     <div class="container mx-auto px-4 py-6">
         <!-- Navbar -->
         <nav class="flex justify-between items-center py-4">
