@@ -15,7 +15,7 @@
     <div class="container mx-auto px-4 py-12">
         <div id="cocktails-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @forelse ($cocktails as $cocktail)
-                <div class="cocktail-card bg-gray-800 rounded-lg shadow-sm overflow-hidden transition-transform transform hover:scale-105 relative">
+                <div class="cocktail-card bg-gray-800 rounded-lg shadow-sm overflow-hidden transition-transform transform hover:scale-105 relative cursor-pointer" onclick="openModal({{ $cocktail->id }})">
                     <img class="w-full h-48 object-cover" src="{{ $cocktail->image_url }}" alt="{{ $cocktail->name }}">
                     <div class="p-4">
                         <h2 class="text-xl font-semibold">{{ $cocktail->name }}</h2>
@@ -32,6 +32,34 @@
             @endforelse
         </div>
     </div>
+
+    <!-- Modal -->
+    <div id="cocktail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-gray-800 text-white rounded-lg overflow-hidden w-3/4 h-3/4 modal-content">
+            <div class="p-4">
+                <button onclick="closeModal()" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">X</button>
+            </div>
+            <div id="modal-content" class="p-4">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(cocktailId) {
+            fetch(`/cocktails/${cocktailId}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('modal-content').innerHTML = html;
+                    document.getElementById('cocktail-modal').classList.remove('hidden');
+                });
+        }
+
+        function closeModal() {
+            document.getElementById('cocktail-modal').classList.add('hidden');
+            document.getElementById('modal-content').innerHTML = '';
+        }
+    </script>
 </x-app-layout>
 </body>
 </html>

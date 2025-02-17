@@ -19,9 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/cocktails', [CocktailController::class, 'fetchCocktails'])->name('cocktails.index');
     Route::match(['get', 'post'], '/my-cocktails', [CocktailController::class, 'store'])->name('cocktails.store');
-    Route::get('/cocktails/{cocktail}', [CocktailController::class, 'show'])->name('cocktails.show');
-    Route::get('/cocktails/{cocktail}/edit', [CocktailController::class, 'edit'])->name('cocktails.edit');
-    Route::put('/cocktails/{cocktail}', [CocktailController::class, 'update'])->name('cocktails.update');
+    Route::get('/cocktails/{cocktail}', [CocktailController::class, 'show'])->name('cocktails.show');    Route::get('/cocktails/{cocktail}/edit', [CocktailController::class, 'edit'])->name('cocktails.edit');
     Route::delete('/cocktails/{cocktail}', [CocktailController::class, 'destroy'])->name('cocktails.destroy');
 });
 

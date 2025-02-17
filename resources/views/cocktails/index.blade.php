@@ -8,6 +8,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-900 text-white font-sans antialiased">
+    @if (session('success'))
+    <div class="bg-green-500 text-white p-4 rounded-md shadow-md mb-4">
+        {{ session('success') }}
+    </div>
+@endif
 <x-app-layout >
     <x-slot name="header">
         <h1 class="text-4xl font-bold text-center">🍹 Explora y Disfruta de los Mejores Cócteles</h1>
