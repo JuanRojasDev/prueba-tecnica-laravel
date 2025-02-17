@@ -9,5 +9,25 @@ class Cocktail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'category', 'image_url'];
-}
+    protected $fillable = ['name', 'image_url'];
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function glasses()
+    {
+        return $this->belongsToMany(Glass::class);
+    }
+
+    public function ingredients()
+    {
+        return $this->belongsToMany(Ingredient::class);
+    }
+
+    public function alcoholic()
+    {
+        return $this->belongsToMany(Alcoholic::class);
+    }
+};

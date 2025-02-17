@@ -12,51 +12,70 @@
         <form method="POST" action="{{ route('cocktails.update', $cocktail->id) }}">
             @csrf
             @method('PUT')
+
+            <!-- Nombre -->
             <div class="mb-4">
                 <label for="name" class="block text-gray-700">Name</label>
-                <input type="text" name="name" id="name" value="{{ $cocktail->name }}" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" name="name" id="name" value="{{ old('name', $cocktail->name) }}" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
+
+            <!-- URL de Imagen -->
             <div class="mb-4">
                 <label for="image_url" class="block text-gray-700">Image URL</label>
-                <input type="text" name="image_url" id="image_url" value="{{ $cocktail->image_url }}" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" name="image_url" id="image_url" value="{{ old('image_url', $cocktail->image_url) }}" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
+
+            <!-- Categorías -->
             <div class="mb-4">
                 <label class="block text-gray-700">Categories</label>
                 @foreach ($categories as $category)
                     <div class="flex items-center mb-2">
-                        <input type="checkbox" name="categories[]" value="{{ $category['strCategory'] }}" class="mr-2">
-                        <span class="bg-gray-800 text-white rounded-full px-2 py-1">{{ $category['strCategory'] }}</span>
+                        <input type="checkbox" name="categories[]" value="{{ $category->id }}"
+                               {{ $cocktail->categories->contains($category->id) ? 'checked' : '' }}>
+                        <span class="ml-2">{{ $category->name }}</span>
                     </div>
                 @endforeach
             </div>
+
+            <!-- Vasos -->
             <div class="mb-4">
                 <label class="block text-gray-700">Glasses</label>
                 @foreach ($glasses as $glass)
                     <div class="flex items-center mb-2">
-                        <input type="checkbox" name="glasses[]" value="{{ $glass['strGlass'] }}" class="mr-2">
-                        <span class="bg-gray-800 text-white rounded-full px-2 py-1">{{ $glass['strGlass'] }}</span>
+                        <input type="checkbox" name="glasses[]" value="{{ $glass->id }}"
+                               {{ $cocktail->glasses->contains($glass->id) ? 'checked' : '' }}>
+                        <span class="ml-2">{{ $glass->name }}</span>
                     </div>
                 @endforeach
             </div>
+
+            <!-- Ingredientes -->
             <div class="mb-4">
                 <label class="block text-gray-700">Ingredients</label>
                 @foreach ($ingredients as $ingredient)
                     <div class="flex items-center mb-2">
-                        <input type="checkbox" name="ingredients[]" value="{{ $ingredient['strIngredient1'] }}" class="mr-2">
-                        <span class="bg-gray-800 text-white rounded-full px-2 py-1">{{ $ingredient['strIngredient1'] }}</span>
+                        <input type="checkbox" name="ingredients[]" value="{{ $ingredient->id }}"
+                               {{ $cocktail->ingredients->contains($ingredient->id) ? 'checked' : '' }}>
+                        <span class="ml-2">{{ $ingredient->name }}</span>
                     </div>
                 @endforeach
             </div>
+
+            <!-- ¿Es alcohólico? -->
             <div class="mb-4">
                 <label class="block text-gray-700">Alcoholic</label>
                 @foreach ($alcoholic as $alcohol)
                     <div class="flex items-center mb-2">
-                        <input type="checkbox" name="alcoholic[]" value="{{ $alcohol['strAlcoholic'] }}" class="mr-2">
-                        <span class="bg-gray-800 text-white rounded-full px-2 py-1">{{ $alcohol['strAlcoholic'] }}</span>
+                        <input type="checkbox" name="alcoholic[]" value="{{ $alcohol->id }}"
+                               {{ $cocktail->alcoholic->contains($alcohol->id) ? 'checked' : '' }}>
+                        <span class="ml-2">{{ $alcohol->name }}</span>
                     </div>
                 @endforeach
             </div>
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">Update</button>
+
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                Update
+            </button>
         </form>
     </div>
 </body>
