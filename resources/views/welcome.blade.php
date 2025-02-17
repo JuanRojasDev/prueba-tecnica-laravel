@@ -27,7 +27,7 @@
                 @if (Route::has('login'))
                     <div class="space-x-4">
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="text-gray-300 hover:text-white">Dashboard</a>
+                            <a href="{{ url('/cocktails') }}" class="text-gray-300 hover:text-white">Cocteles</a>
                         @else
                             <a href="{{ route('login') }}" class="text-gray-300 hover:text-white">Inciar Sesión</a>
                             @if (Route::has('register'))
