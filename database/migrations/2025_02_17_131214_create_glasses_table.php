@@ -10,8 +10,7 @@ class CreateGlassesTable extends Migration
     {
         Schema::create('glasses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cocktail_id')->constrained()->onDelete('cascade');
-            $table->foreignId('glass_id')->constrained()->onDelete('cascade');
+            $table->string('name'); 
             $table->timestamps();
         });
     }

@@ -128,14 +128,23 @@ class CocktailController extends Controller
         return view('cocktails.show', compact('cocktail'));
     }
 
-    public function edit(Cocktail $cocktail)
+    public function edit($id)
     {
-        $categories = Category::all();
-        $glasses = Glass::all();
-        $ingredients = Ingredient::all();
-        $alcoholic = Alcoholic::all();
+    $cocktail = Cocktail::with(['categories', 'glasses', 'ingredients', 'alcoholic'])->findOrFail($id);
 
-        return view('cocktails.edit', compact('cocktail', 'categories', 'glasses', 'ingredients', 'alcoholic'));
+    // Obtener datos desde la API de TheCocktailDB
+    $categoriesResponse = Http::get('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+    $glassesResponse = Http::get('https://www.thecocktaildb.com/api/json/v1/1/list.php?g=list');
+    $ingredientsResponse = Http::get('https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list');
+    $alcoholicResponse = Http::get('https://www.thecocktaildb.com/api/json/v1/1/list.php?a=list');
+
+    // Extraer los datos de la respuesta JSON
+    $categories = $categoriesResponse->json()['drinks'] ?? [];
+    $glasses = $glassesResponse->json()['drinks'] ?? [];
+    $ingredients = $ingredientsResponse->json()['drinks'] ?? [];
+    $alcoholic = $alcoholicResponse->json()['drinks'] ?? [];
+
+    return view('cocktails.edit', compact('cocktail', 'categories', 'glasses', 'ingredients', 'alcoholic'));
     }
 
     public function update(Request $request, Cocktail $cocktail)
@@ -151,10 +160,16 @@ class CocktailController extends Controller
 
         $cocktail->update($request->only(['name', 'image_url']));
 
-        $cocktail->categories()->sync($request->input('categories', []));
-        $cocktail->glasses()->sync($request->input('glasses', []));
-        $cocktail->ingredients()->sync($request->input('ingredients', []));
-        $cocktail->alcoholic()->sync($request->input('alcoholic', []));
+        // Convertir nombres a IDs antes de sincronizar
+        $categoryIds = Category::whereIn('name', $request->input('categories', []))->pluck('id')->toArray();
+        $glassIds = Glass::whereIn('name', $request->input('glasses', []))->pluck('id')->toArray();
+        $ingredientIds = Ingredient::whereIn('name', $request->input('ingredients', []))->pluck('id')->toArray();
+        $alcoholicIds = Alcoholic::whereIn('name', $request->input('alcoholic', []))->pluck('id')->toArray();
+
+        $cocktail->categories()->sync($categoryIds);
+        $cocktail->glasses()->sync($glassIds);
+        $cocktail->ingredients()->sync($ingredientIds);
+        $cocktail->alcoholic()->sync($alcoholicIds);
 
         return redirect()->route('cocktails.index')->with('success', 'Cocktail updated successfully!');
     }

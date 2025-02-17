@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('cocktail_glass', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cocktail_id')->constrained()->onDelete('cascade');
-            $table->foreignId('glass_id')->constrained()->onDelete('cascade');
+            $table->foreignId('glass_id')->constrained('glasses')->onDelete('cascade'); // Asegúrate de que apunte a la tabla 'glasses'
             $table->timestamps();
         });
     }
